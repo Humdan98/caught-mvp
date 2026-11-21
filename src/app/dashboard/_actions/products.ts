@@ -20,7 +20,7 @@ export async function saveProduct(_prev: FormState, form: FormData): Promise<For
 
   let imageUrl: string | null;
   try {
-    imageUrl = await resolveImageField(form, "imageFile", "imageUrl");
+    imageUrl = await resolveImageField(form, "imageFile", "imageUrl", creator.id);
   } catch (e) {
     return { errors: { imageUrl: e instanceof UploadError ? e.message : "Upload failed" } };
   }

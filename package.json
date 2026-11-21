@@ -7,13 +7,18 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/search.test.ts tests/backup.test.ts tests/validation.test.ts tests/db-config.test.ts",
+    "setup": "prisma generate && prisma migrate deploy && tsx prisma/seed.ts",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate deploy",
     "db:seed": "tsx prisma/seed.ts",
     "db:reset": "tsx scripts/reset-db.ts && prisma migrate deploy && tsx prisma/seed.ts",
-    "setup": "prisma generate && prisma migrate deploy && tsx prisma/seed.ts",
-    "postinstall": "prisma generate",
-    "test": "tsx --test tests/search.test.ts tests/backup.test.ts tests/validation.test.ts"
+    "db:deploy": "tsx scripts/db-migrate.ts",
+    "db:seed:if-empty": "tsx scripts/db-seed-if-empty.ts",
+    "turso:migrate": "tsx scripts/db-migrate.ts --env .env.turso",
+    "turso:seed": "tsx prisma/seed.ts --env .env.turso",
+    "vercel-build": "prisma generate && tsx scripts/db-migrate.ts && tsx scripts/db-seed-if-empty.ts && next build",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@libsql/client": "^0.18.0",

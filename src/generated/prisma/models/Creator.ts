@@ -249,6 +249,7 @@ export type CreatorWhereInput = {
   searches?: Prisma.SearchEventListRelationFilter
   signups?: Prisma.NotificationSignupListRelationFilter
   sales?: Prisma.SaleListRelationFilter
+  media?: Prisma.MediaFileListRelationFilter
 }
 
 export type CreatorOrderByWithRelationInput = {
@@ -269,6 +270,7 @@ export type CreatorOrderByWithRelationInput = {
   searches?: Prisma.SearchEventOrderByRelationAggregateInput
   signups?: Prisma.NotificationSignupOrderByRelationAggregateInput
   sales?: Prisma.SaleOrderByRelationAggregateInput
+  media?: Prisma.MediaFileOrderByRelationAggregateInput
 }
 
 export type CreatorWhereUniqueInput = Prisma.AtLeast<{
@@ -292,6 +294,7 @@ export type CreatorWhereUniqueInput = Prisma.AtLeast<{
   searches?: Prisma.SearchEventListRelationFilter
   signups?: Prisma.NotificationSignupListRelationFilter
   sales?: Prisma.SaleListRelationFilter
+  media?: Prisma.MediaFileListRelationFilter
 }, "id" | "handle">
 
 export type CreatorOrderByWithAggregationInput = {
@@ -341,6 +344,7 @@ export type CreatorCreateInput = {
   searches?: Prisma.SearchEventCreateNestedManyWithoutCreatorInput
   signups?: Prisma.NotificationSignupCreateNestedManyWithoutCreatorInput
   sales?: Prisma.SaleCreateNestedManyWithoutCreatorInput
+  media?: Prisma.MediaFileCreateNestedManyWithoutCreatorInput
 }
 
 export type CreatorUncheckedCreateInput = {
@@ -360,6 +364,7 @@ export type CreatorUncheckedCreateInput = {
   searches?: Prisma.SearchEventUncheckedCreateNestedManyWithoutCreatorInput
   signups?: Prisma.NotificationSignupUncheckedCreateNestedManyWithoutCreatorInput
   sales?: Prisma.SaleUncheckedCreateNestedManyWithoutCreatorInput
+  media?: Prisma.MediaFileUncheckedCreateNestedManyWithoutCreatorInput
 }
 
 export type CreatorUpdateInput = {
@@ -379,6 +384,7 @@ export type CreatorUpdateInput = {
   searches?: Prisma.SearchEventUpdateManyWithoutCreatorNestedInput
   signups?: Prisma.NotificationSignupUpdateManyWithoutCreatorNestedInput
   sales?: Prisma.SaleUpdateManyWithoutCreatorNestedInput
+  media?: Prisma.MediaFileUpdateManyWithoutCreatorNestedInput
 }
 
 export type CreatorUncheckedUpdateInput = {
@@ -398,6 +404,7 @@ export type CreatorUncheckedUpdateInput = {
   searches?: Prisma.SearchEventUncheckedUpdateManyWithoutCreatorNestedInput
   signups?: Prisma.NotificationSignupUncheckedUpdateManyWithoutCreatorNestedInput
   sales?: Prisma.SaleUncheckedUpdateManyWithoutCreatorNestedInput
+  media?: Prisma.MediaFileUncheckedUpdateManyWithoutCreatorNestedInput
 }
 
 export type CreatorCreateManyInput = {
@@ -650,6 +657,20 @@ export type CreatorUpdateOneRequiredWithoutSalesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CreatorUpdateToOneWithWhereWithoutSalesInput, Prisma.CreatorUpdateWithoutSalesInput>, Prisma.CreatorUncheckedUpdateWithoutSalesInput>
 }
 
+export type CreatorCreateNestedOneWithoutMediaInput = {
+  create?: Prisma.XOR<Prisma.CreatorCreateWithoutMediaInput, Prisma.CreatorUncheckedCreateWithoutMediaInput>
+  connectOrCreate?: Prisma.CreatorCreateOrConnectWithoutMediaInput
+  connect?: Prisma.CreatorWhereUniqueInput
+}
+
+export type CreatorUpdateOneRequiredWithoutMediaNestedInput = {
+  create?: Prisma.XOR<Prisma.CreatorCreateWithoutMediaInput, Prisma.CreatorUncheckedCreateWithoutMediaInput>
+  connectOrCreate?: Prisma.CreatorCreateOrConnectWithoutMediaInput
+  upsert?: Prisma.CreatorUpsertWithoutMediaInput
+  connect?: Prisma.CreatorWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CreatorUpdateToOneWithWhereWithoutMediaInput, Prisma.CreatorUpdateWithoutMediaInput>, Prisma.CreatorUncheckedUpdateWithoutMediaInput>
+}
+
 export type CreatorCreateWithoutUserInput = {
   id?: string
   handle: string
@@ -666,6 +687,7 @@ export type CreatorCreateWithoutUserInput = {
   searches?: Prisma.SearchEventCreateNestedManyWithoutCreatorInput
   signups?: Prisma.NotificationSignupCreateNestedManyWithoutCreatorInput
   sales?: Prisma.SaleCreateNestedManyWithoutCreatorInput
+  media?: Prisma.MediaFileCreateNestedManyWithoutCreatorInput
 }
 
 export type CreatorUncheckedCreateWithoutUserInput = {
@@ -684,6 +706,7 @@ export type CreatorUncheckedCreateWithoutUserInput = {
   searches?: Prisma.SearchEventUncheckedCreateNestedManyWithoutCreatorInput
   signups?: Prisma.NotificationSignupUncheckedCreateNestedManyWithoutCreatorInput
   sales?: Prisma.SaleUncheckedCreateNestedManyWithoutCreatorInput
+  media?: Prisma.MediaFileUncheckedCreateNestedManyWithoutCreatorInput
 }
 
 export type CreatorCreateOrConnectWithoutUserInput = {
@@ -741,6 +764,7 @@ export type CreatorCreateWithoutSocialsInput = {
   searches?: Prisma.SearchEventCreateNestedManyWithoutCreatorInput
   signups?: Prisma.NotificationSignupCreateNestedManyWithoutCreatorInput
   sales?: Prisma.SaleCreateNestedManyWithoutCreatorInput
+  media?: Prisma.MediaFileCreateNestedManyWithoutCreatorInput
 }
 
 export type CreatorUncheckedCreateWithoutSocialsInput = {
@@ -759,6 +783,7 @@ export type CreatorUncheckedCreateWithoutSocialsInput = {
   searches?: Prisma.SearchEventUncheckedCreateNestedManyWithoutCreatorInput
   signups?: Prisma.NotificationSignupUncheckedCreateNestedManyWithoutCreatorInput
   sales?: Prisma.SaleUncheckedCreateNestedManyWithoutCreatorInput
+  media?: Prisma.MediaFileUncheckedCreateNestedManyWithoutCreatorInput
 }
 
 export type CreatorCreateOrConnectWithoutSocialsInput = {
@@ -793,6 +818,7 @@ export type CreatorUpdateWithoutSocialsInput = {
   searches?: Prisma.SearchEventUpdateManyWithoutCreatorNestedInput
   signups?: Prisma.NotificationSignupUpdateManyWithoutCreatorNestedInput
   sales?: Prisma.SaleUpdateManyWithoutCreatorNestedInput
+  media?: Prisma.MediaFileUpdateManyWithoutCreatorNestedInput
 }
 
 export type CreatorUncheckedUpdateWithoutSocialsInput = {
@@ -811,6 +837,7 @@ export type CreatorUncheckedUpdateWithoutSocialsInput = {
   searches?: Prisma.SearchEventUncheckedUpdateManyWithoutCreatorNestedInput
   signups?: Prisma.NotificationSignupUncheckedUpdateManyWithoutCreatorNestedInput
   sales?: Prisma.SaleUncheckedUpdateManyWithoutCreatorNestedInput
+  media?: Prisma.MediaFileUncheckedUpdateManyWithoutCreatorNestedInput
 }
 
 export type CreatorCreateWithoutProductsInput = {
@@ -829,6 +856,7 @@ export type CreatorCreateWithoutProductsInput = {
   searches?: Prisma.SearchEventCreateNestedManyWithoutCreatorInput
   signups?: Prisma.NotificationSignupCreateNestedManyWithoutCreatorInput
   sales?: Prisma.SaleCreateNestedManyWithoutCreatorInput
+  media?: Prisma.MediaFileCreateNestedManyWithoutCreatorInput
 }
 
 export type CreatorUncheckedCreateWithoutProductsInput = {
@@ -847,6 +875,7 @@ export type CreatorUncheckedCreateWithoutProductsInput = {
   searches?: Prisma.SearchEventUncheckedCreateNestedManyWithoutCreatorInput
   signups?: Prisma.NotificationSignupUncheckedCreateNestedManyWithoutCreatorInput
   sales?: Prisma.SaleUncheckedCreateNestedManyWithoutCreatorInput
+  media?: Prisma.MediaFileUncheckedCreateNestedManyWithoutCreatorInput
 }
 
 export type CreatorCreateOrConnectWithoutProductsInput = {
@@ -881,6 +910,7 @@ export type CreatorUpdateWithoutProductsInput = {
   searches?: Prisma.SearchEventUpdateManyWithoutCreatorNestedInput
   signups?: Prisma.NotificationSignupUpdateManyWithoutCreatorNestedInput
   sales?: Prisma.SaleUpdateManyWithoutCreatorNestedInput
+  media?: Prisma.MediaFileUpdateManyWithoutCreatorNestedInput
 }
 
 export type CreatorUncheckedUpdateWithoutProductsInput = {
@@ -899,6 +929,7 @@ export type CreatorUncheckedUpdateWithoutProductsInput = {
   searches?: Prisma.SearchEventUncheckedUpdateManyWithoutCreatorNestedInput
   signups?: Prisma.NotificationSignupUncheckedUpdateManyWithoutCreatorNestedInput
   sales?: Prisma.SaleUncheckedUpdateManyWithoutCreatorNestedInput
+  media?: Prisma.MediaFileUncheckedUpdateManyWithoutCreatorNestedInput
 }
 
 export type CreatorCreateWithoutVideosInput = {
@@ -917,6 +948,7 @@ export type CreatorCreateWithoutVideosInput = {
   searches?: Prisma.SearchEventCreateNestedManyWithoutCreatorInput
   signups?: Prisma.NotificationSignupCreateNestedManyWithoutCreatorInput
   sales?: Prisma.SaleCreateNestedManyWithoutCreatorInput
+  media?: Prisma.MediaFileCreateNestedManyWithoutCreatorInput
 }
 
 export type CreatorUncheckedCreateWithoutVideosInput = {
@@ -935,6 +967,7 @@ export type CreatorUncheckedCreateWithoutVideosInput = {
   searches?: Prisma.SearchEventUncheckedCreateNestedManyWithoutCreatorInput
   signups?: Prisma.NotificationSignupUncheckedCreateNestedManyWithoutCreatorInput
   sales?: Prisma.SaleUncheckedCreateNestedManyWithoutCreatorInput
+  media?: Prisma.MediaFileUncheckedCreateNestedManyWithoutCreatorInput
 }
 
 export type CreatorCreateOrConnectWithoutVideosInput = {
@@ -969,6 +1002,7 @@ export type CreatorUpdateWithoutVideosInput = {
   searches?: Prisma.SearchEventUpdateManyWithoutCreatorNestedInput
   signups?: Prisma.NotificationSignupUpdateManyWithoutCreatorNestedInput
   sales?: Prisma.SaleUpdateManyWithoutCreatorNestedInput
+  media?: Prisma.MediaFileUpdateManyWithoutCreatorNestedInput
 }
 
 export type CreatorUncheckedUpdateWithoutVideosInput = {
@@ -987,6 +1021,7 @@ export type CreatorUncheckedUpdateWithoutVideosInput = {
   searches?: Prisma.SearchEventUncheckedUpdateManyWithoutCreatorNestedInput
   signups?: Prisma.NotificationSignupUncheckedUpdateManyWithoutCreatorNestedInput
   sales?: Prisma.SaleUncheckedUpdateManyWithoutCreatorNestedInput
+  media?: Prisma.MediaFileUncheckedUpdateManyWithoutCreatorNestedInput
 }
 
 export type CreatorCreateWithoutPageViewsInput = {
@@ -1005,6 +1040,7 @@ export type CreatorCreateWithoutPageViewsInput = {
   searches?: Prisma.SearchEventCreateNestedManyWithoutCreatorInput
   signups?: Prisma.NotificationSignupCreateNestedManyWithoutCreatorInput
   sales?: Prisma.SaleCreateNestedManyWithoutCreatorInput
+  media?: Prisma.MediaFileCreateNestedManyWithoutCreatorInput
 }
 
 export type CreatorUncheckedCreateWithoutPageViewsInput = {
@@ -1023,6 +1059,7 @@ export type CreatorUncheckedCreateWithoutPageViewsInput = {
   searches?: Prisma.SearchEventUncheckedCreateNestedManyWithoutCreatorInput
   signups?: Prisma.NotificationSignupUncheckedCreateNestedManyWithoutCreatorInput
   sales?: Prisma.SaleUncheckedCreateNestedManyWithoutCreatorInput
+  media?: Prisma.MediaFileUncheckedCreateNestedManyWithoutCreatorInput
 }
 
 export type CreatorCreateOrConnectWithoutPageViewsInput = {
@@ -1057,6 +1094,7 @@ export type CreatorUpdateWithoutPageViewsInput = {
   searches?: Prisma.SearchEventUpdateManyWithoutCreatorNestedInput
   signups?: Prisma.NotificationSignupUpdateManyWithoutCreatorNestedInput
   sales?: Prisma.SaleUpdateManyWithoutCreatorNestedInput
+  media?: Prisma.MediaFileUpdateManyWithoutCreatorNestedInput
 }
 
 export type CreatorUncheckedUpdateWithoutPageViewsInput = {
@@ -1075,6 +1113,7 @@ export type CreatorUncheckedUpdateWithoutPageViewsInput = {
   searches?: Prisma.SearchEventUncheckedUpdateManyWithoutCreatorNestedInput
   signups?: Prisma.NotificationSignupUncheckedUpdateManyWithoutCreatorNestedInput
   sales?: Prisma.SaleUncheckedUpdateManyWithoutCreatorNestedInput
+  media?: Prisma.MediaFileUncheckedUpdateManyWithoutCreatorNestedInput
 }
 
 export type CreatorCreateWithoutClicksInput = {
@@ -1093,6 +1132,7 @@ export type CreatorCreateWithoutClicksInput = {
   searches?: Prisma.SearchEventCreateNestedManyWithoutCreatorInput
   signups?: Prisma.NotificationSignupCreateNestedManyWithoutCreatorInput
   sales?: Prisma.SaleCreateNestedManyWithoutCreatorInput
+  media?: Prisma.MediaFileCreateNestedManyWithoutCreatorInput
 }
 
 export type CreatorUncheckedCreateWithoutClicksInput = {
@@ -1111,6 +1151,7 @@ export type CreatorUncheckedCreateWithoutClicksInput = {
   searches?: Prisma.SearchEventUncheckedCreateNestedManyWithoutCreatorInput
   signups?: Prisma.NotificationSignupUncheckedCreateNestedManyWithoutCreatorInput
   sales?: Prisma.SaleUncheckedCreateNestedManyWithoutCreatorInput
+  media?: Prisma.MediaFileUncheckedCreateNestedManyWithoutCreatorInput
 }
 
 export type CreatorCreateOrConnectWithoutClicksInput = {
@@ -1145,6 +1186,7 @@ export type CreatorUpdateWithoutClicksInput = {
   searches?: Prisma.SearchEventUpdateManyWithoutCreatorNestedInput
   signups?: Prisma.NotificationSignupUpdateManyWithoutCreatorNestedInput
   sales?: Prisma.SaleUpdateManyWithoutCreatorNestedInput
+  media?: Prisma.MediaFileUpdateManyWithoutCreatorNestedInput
 }
 
 export type CreatorUncheckedUpdateWithoutClicksInput = {
@@ -1163,6 +1205,7 @@ export type CreatorUncheckedUpdateWithoutClicksInput = {
   searches?: Prisma.SearchEventUncheckedUpdateManyWithoutCreatorNestedInput
   signups?: Prisma.NotificationSignupUncheckedUpdateManyWithoutCreatorNestedInput
   sales?: Prisma.SaleUncheckedUpdateManyWithoutCreatorNestedInput
+  media?: Prisma.MediaFileUncheckedUpdateManyWithoutCreatorNestedInput
 }
 
 export type CreatorCreateWithoutSearchesInput = {
@@ -1181,6 +1224,7 @@ export type CreatorCreateWithoutSearchesInput = {
   clicks?: Prisma.ClickEventCreateNestedManyWithoutCreatorInput
   signups?: Prisma.NotificationSignupCreateNestedManyWithoutCreatorInput
   sales?: Prisma.SaleCreateNestedManyWithoutCreatorInput
+  media?: Prisma.MediaFileCreateNestedManyWithoutCreatorInput
 }
 
 export type CreatorUncheckedCreateWithoutSearchesInput = {
@@ -1199,6 +1243,7 @@ export type CreatorUncheckedCreateWithoutSearchesInput = {
   clicks?: Prisma.ClickEventUncheckedCreateNestedManyWithoutCreatorInput
   signups?: Prisma.NotificationSignupUncheckedCreateNestedManyWithoutCreatorInput
   sales?: Prisma.SaleUncheckedCreateNestedManyWithoutCreatorInput
+  media?: Prisma.MediaFileUncheckedCreateNestedManyWithoutCreatorInput
 }
 
 export type CreatorCreateOrConnectWithoutSearchesInput = {
@@ -1233,6 +1278,7 @@ export type CreatorUpdateWithoutSearchesInput = {
   clicks?: Prisma.ClickEventUpdateManyWithoutCreatorNestedInput
   signups?: Prisma.NotificationSignupUpdateManyWithoutCreatorNestedInput
   sales?: Prisma.SaleUpdateManyWithoutCreatorNestedInput
+  media?: Prisma.MediaFileUpdateManyWithoutCreatorNestedInput
 }
 
 export type CreatorUncheckedUpdateWithoutSearchesInput = {
@@ -1251,6 +1297,7 @@ export type CreatorUncheckedUpdateWithoutSearchesInput = {
   clicks?: Prisma.ClickEventUncheckedUpdateManyWithoutCreatorNestedInput
   signups?: Prisma.NotificationSignupUncheckedUpdateManyWithoutCreatorNestedInput
   sales?: Prisma.SaleUncheckedUpdateManyWithoutCreatorNestedInput
+  media?: Prisma.MediaFileUncheckedUpdateManyWithoutCreatorNestedInput
 }
 
 export type CreatorCreateWithoutSignupsInput = {
@@ -1269,6 +1316,7 @@ export type CreatorCreateWithoutSignupsInput = {
   clicks?: Prisma.ClickEventCreateNestedManyWithoutCreatorInput
   searches?: Prisma.SearchEventCreateNestedManyWithoutCreatorInput
   sales?: Prisma.SaleCreateNestedManyWithoutCreatorInput
+  media?: Prisma.MediaFileCreateNestedManyWithoutCreatorInput
 }
 
 export type CreatorUncheckedCreateWithoutSignupsInput = {
@@ -1287,6 +1335,7 @@ export type CreatorUncheckedCreateWithoutSignupsInput = {
   clicks?: Prisma.ClickEventUncheckedCreateNestedManyWithoutCreatorInput
   searches?: Prisma.SearchEventUncheckedCreateNestedManyWithoutCreatorInput
   sales?: Prisma.SaleUncheckedCreateNestedManyWithoutCreatorInput
+  media?: Prisma.MediaFileUncheckedCreateNestedManyWithoutCreatorInput
 }
 
 export type CreatorCreateOrConnectWithoutSignupsInput = {
@@ -1321,6 +1370,7 @@ export type CreatorUpdateWithoutSignupsInput = {
   clicks?: Prisma.ClickEventUpdateManyWithoutCreatorNestedInput
   searches?: Prisma.SearchEventUpdateManyWithoutCreatorNestedInput
   sales?: Prisma.SaleUpdateManyWithoutCreatorNestedInput
+  media?: Prisma.MediaFileUpdateManyWithoutCreatorNestedInput
 }
 
 export type CreatorUncheckedUpdateWithoutSignupsInput = {
@@ -1339,6 +1389,7 @@ export type CreatorUncheckedUpdateWithoutSignupsInput = {
   clicks?: Prisma.ClickEventUncheckedUpdateManyWithoutCreatorNestedInput
   searches?: Prisma.SearchEventUncheckedUpdateManyWithoutCreatorNestedInput
   sales?: Prisma.SaleUncheckedUpdateManyWithoutCreatorNestedInput
+  media?: Prisma.MediaFileUncheckedUpdateManyWithoutCreatorNestedInput
 }
 
 export type CreatorCreateWithoutSalesInput = {
@@ -1357,6 +1408,7 @@ export type CreatorCreateWithoutSalesInput = {
   clicks?: Prisma.ClickEventCreateNestedManyWithoutCreatorInput
   searches?: Prisma.SearchEventCreateNestedManyWithoutCreatorInput
   signups?: Prisma.NotificationSignupCreateNestedManyWithoutCreatorInput
+  media?: Prisma.MediaFileCreateNestedManyWithoutCreatorInput
 }
 
 export type CreatorUncheckedCreateWithoutSalesInput = {
@@ -1375,6 +1427,7 @@ export type CreatorUncheckedCreateWithoutSalesInput = {
   clicks?: Prisma.ClickEventUncheckedCreateNestedManyWithoutCreatorInput
   searches?: Prisma.SearchEventUncheckedCreateNestedManyWithoutCreatorInput
   signups?: Prisma.NotificationSignupUncheckedCreateNestedManyWithoutCreatorInput
+  media?: Prisma.MediaFileUncheckedCreateNestedManyWithoutCreatorInput
 }
 
 export type CreatorCreateOrConnectWithoutSalesInput = {
@@ -1409,6 +1462,7 @@ export type CreatorUpdateWithoutSalesInput = {
   clicks?: Prisma.ClickEventUpdateManyWithoutCreatorNestedInput
   searches?: Prisma.SearchEventUpdateManyWithoutCreatorNestedInput
   signups?: Prisma.NotificationSignupUpdateManyWithoutCreatorNestedInput
+  media?: Prisma.MediaFileUpdateManyWithoutCreatorNestedInput
 }
 
 export type CreatorUncheckedUpdateWithoutSalesInput = {
@@ -1427,6 +1481,99 @@ export type CreatorUncheckedUpdateWithoutSalesInput = {
   clicks?: Prisma.ClickEventUncheckedUpdateManyWithoutCreatorNestedInput
   searches?: Prisma.SearchEventUncheckedUpdateManyWithoutCreatorNestedInput
   signups?: Prisma.NotificationSignupUncheckedUpdateManyWithoutCreatorNestedInput
+  media?: Prisma.MediaFileUncheckedUpdateManyWithoutCreatorNestedInput
+}
+
+export type CreatorCreateWithoutMediaInput = {
+  id?: string
+  handle: string
+  displayName: string
+  bio?: string
+  avatarUrl?: string | null
+  nextProductNumber?: number
+  createdAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutCreatorsInput
+  socials?: Prisma.SocialLinkCreateNestedManyWithoutCreatorInput
+  products?: Prisma.ProductCreateNestedManyWithoutCreatorInput
+  videos?: Prisma.VideoCreateNestedManyWithoutCreatorInput
+  pageViews?: Prisma.PageViewCreateNestedManyWithoutCreatorInput
+  clicks?: Prisma.ClickEventCreateNestedManyWithoutCreatorInput
+  searches?: Prisma.SearchEventCreateNestedManyWithoutCreatorInput
+  signups?: Prisma.NotificationSignupCreateNestedManyWithoutCreatorInput
+  sales?: Prisma.SaleCreateNestedManyWithoutCreatorInput
+}
+
+export type CreatorUncheckedCreateWithoutMediaInput = {
+  id?: string
+  userId: string
+  handle: string
+  displayName: string
+  bio?: string
+  avatarUrl?: string | null
+  nextProductNumber?: number
+  createdAt?: Date | string
+  socials?: Prisma.SocialLinkUncheckedCreateNestedManyWithoutCreatorInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCreatorInput
+  videos?: Prisma.VideoUncheckedCreateNestedManyWithoutCreatorInput
+  pageViews?: Prisma.PageViewUncheckedCreateNestedManyWithoutCreatorInput
+  clicks?: Prisma.ClickEventUncheckedCreateNestedManyWithoutCreatorInput
+  searches?: Prisma.SearchEventUncheckedCreateNestedManyWithoutCreatorInput
+  signups?: Prisma.NotificationSignupUncheckedCreateNestedManyWithoutCreatorInput
+  sales?: Prisma.SaleUncheckedCreateNestedManyWithoutCreatorInput
+}
+
+export type CreatorCreateOrConnectWithoutMediaInput = {
+  where: Prisma.CreatorWhereUniqueInput
+  create: Prisma.XOR<Prisma.CreatorCreateWithoutMediaInput, Prisma.CreatorUncheckedCreateWithoutMediaInput>
+}
+
+export type CreatorUpsertWithoutMediaInput = {
+  update: Prisma.XOR<Prisma.CreatorUpdateWithoutMediaInput, Prisma.CreatorUncheckedUpdateWithoutMediaInput>
+  create: Prisma.XOR<Prisma.CreatorCreateWithoutMediaInput, Prisma.CreatorUncheckedCreateWithoutMediaInput>
+  where?: Prisma.CreatorWhereInput
+}
+
+export type CreatorUpdateToOneWithWhereWithoutMediaInput = {
+  where?: Prisma.CreatorWhereInput
+  data: Prisma.XOR<Prisma.CreatorUpdateWithoutMediaInput, Prisma.CreatorUncheckedUpdateWithoutMediaInput>
+}
+
+export type CreatorUpdateWithoutMediaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  handle?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nextProductNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutCreatorsNestedInput
+  socials?: Prisma.SocialLinkUpdateManyWithoutCreatorNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCreatorNestedInput
+  videos?: Prisma.VideoUpdateManyWithoutCreatorNestedInput
+  pageViews?: Prisma.PageViewUpdateManyWithoutCreatorNestedInput
+  clicks?: Prisma.ClickEventUpdateManyWithoutCreatorNestedInput
+  searches?: Prisma.SearchEventUpdateManyWithoutCreatorNestedInput
+  signups?: Prisma.NotificationSignupUpdateManyWithoutCreatorNestedInput
+  sales?: Prisma.SaleUpdateManyWithoutCreatorNestedInput
+}
+
+export type CreatorUncheckedUpdateWithoutMediaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  handle?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nextProductNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  socials?: Prisma.SocialLinkUncheckedUpdateManyWithoutCreatorNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCreatorNestedInput
+  videos?: Prisma.VideoUncheckedUpdateManyWithoutCreatorNestedInput
+  pageViews?: Prisma.PageViewUncheckedUpdateManyWithoutCreatorNestedInput
+  clicks?: Prisma.ClickEventUncheckedUpdateManyWithoutCreatorNestedInput
+  searches?: Prisma.SearchEventUncheckedUpdateManyWithoutCreatorNestedInput
+  signups?: Prisma.NotificationSignupUncheckedUpdateManyWithoutCreatorNestedInput
+  sales?: Prisma.SaleUncheckedUpdateManyWithoutCreatorNestedInput
 }
 
 export type CreatorCreateManyUserInput = {
@@ -1455,6 +1602,7 @@ export type CreatorUpdateWithoutUserInput = {
   searches?: Prisma.SearchEventUpdateManyWithoutCreatorNestedInput
   signups?: Prisma.NotificationSignupUpdateManyWithoutCreatorNestedInput
   sales?: Prisma.SaleUpdateManyWithoutCreatorNestedInput
+  media?: Prisma.MediaFileUpdateManyWithoutCreatorNestedInput
 }
 
 export type CreatorUncheckedUpdateWithoutUserInput = {
@@ -1473,6 +1621,7 @@ export type CreatorUncheckedUpdateWithoutUserInput = {
   searches?: Prisma.SearchEventUncheckedUpdateManyWithoutCreatorNestedInput
   signups?: Prisma.NotificationSignupUncheckedUpdateManyWithoutCreatorNestedInput
   sales?: Prisma.SaleUncheckedUpdateManyWithoutCreatorNestedInput
+  media?: Prisma.MediaFileUncheckedUpdateManyWithoutCreatorNestedInput
 }
 
 export type CreatorUncheckedUpdateManyWithoutUserInput = {
@@ -1499,6 +1648,7 @@ export type CreatorCountOutputType = {
   searches: number
   signups: number
   sales: number
+  media: number
 }
 
 export type CreatorCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1510,6 +1660,7 @@ export type CreatorCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   searches?: boolean | CreatorCountOutputTypeCountSearchesArgs
   signups?: boolean | CreatorCountOutputTypeCountSignupsArgs
   sales?: boolean | CreatorCountOutputTypeCountSalesArgs
+  media?: boolean | CreatorCountOutputTypeCountMediaArgs
 }
 
 /**
@@ -1578,6 +1729,13 @@ export type CreatorCountOutputTypeCountSalesArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.SaleWhereInput
 }
 
+/**
+ * CreatorCountOutputType without action
+ */
+export type CreatorCountOutputTypeCountMediaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MediaFileWhereInput
+}
+
 
 export type CreatorSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1597,6 +1755,7 @@ export type CreatorSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   searches?: boolean | Prisma.Creator$searchesArgs<ExtArgs>
   signups?: boolean | Prisma.Creator$signupsArgs<ExtArgs>
   sales?: boolean | Prisma.Creator$salesArgs<ExtArgs>
+  media?: boolean | Prisma.Creator$mediaArgs<ExtArgs>
   _count?: boolean | Prisma.CreatorCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["creator"]>
 
@@ -1646,6 +1805,7 @@ export type CreatorInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   searches?: boolean | Prisma.Creator$searchesArgs<ExtArgs>
   signups?: boolean | Prisma.Creator$signupsArgs<ExtArgs>
   sales?: boolean | Prisma.Creator$salesArgs<ExtArgs>
+  media?: boolean | Prisma.Creator$mediaArgs<ExtArgs>
   _count?: boolean | Prisma.CreatorCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CreatorIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1667,6 +1827,7 @@ export type $CreatorPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     searches: Prisma.$SearchEventPayload<ExtArgs>[]
     signups: Prisma.$NotificationSignupPayload<ExtArgs>[]
     sales: Prisma.$SalePayload<ExtArgs>[]
+    media: Prisma.$MediaFilePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2080,6 +2241,7 @@ export interface Prisma__CreatorClient<T, Null = never, ExtArgs extends runtime.
   searches<T extends Prisma.Creator$searchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Creator$searchesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SearchEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   signups<T extends Prisma.Creator$signupsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Creator$signupsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationSignupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sales<T extends Prisma.Creator$salesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Creator$salesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SalePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  media<T extends Prisma.Creator$mediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Creator$mediaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MediaFilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2705,6 +2867,30 @@ export type Creator$salesArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.SaleScalarFieldEnum | Prisma.SaleScalarFieldEnum[]
+}
+
+/**
+ * Creator.media
+ */
+export type Creator$mediaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MediaFile
+   */
+  select?: Prisma.MediaFileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MediaFile
+   */
+  omit?: Prisma.MediaFileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MediaFileInclude<ExtArgs> | null
+  where?: Prisma.MediaFileWhereInput
+  orderBy?: Prisma.MediaFileOrderByWithRelationInput | Prisma.MediaFileOrderByWithRelationInput[]
+  cursor?: Prisma.MediaFileWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MediaFileScalarFieldEnum | Prisma.MediaFileScalarFieldEnum[]
 }
 
 /**

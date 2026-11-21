@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import { cn } from "@/components/ui/cn";
 import { inputClass } from "@/components/ui/field";
 
+const MAX_IMAGE_BYTES = 4 * 1024 * 1024; // keep in sync with MAX_UPLOAD_BYTES in lib/uploads.ts
+
 /**
  * Upload an image or paste an image URL. Submits `${name}File` and `${name}Url`.
  * The server prefers the uploaded file (see resolveImageField).
@@ -25,6 +27,7 @@ export function ImageField({
   const [preview, setPreview] = useState<string | null>(defaultUrl ?? null);
   const [url, setUrl] = useState(defaultUrl ?? "");
   const [mode, setMode] = useState<"upload" | "url">("upload");
+  const [tooBig, setTooBig] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const objectUrl = useRef<string | null>(null);
 
@@ -35,6 +38,13 @@ export function ImageField({
   function onFile(e: React.ChangeEvent<HTMLInputElement>) {
     const f = e.target.files?.[0];
     if (!f) return;
+    // Checked here too: on Vercel an oversized post is rejected before our server code runs.
+    if (f.size > MAX_IMAGE_BYTES) {
+      e.target.value = "";
+      setTooBig(true);
+      return;
+    }
+    setTooBig(false);
     if (objectUrl.current) URL.revokeObjectURL(objectUrl.current);
     objectUrl.current = URL.createObjectURL(f);
     setPreview(objectUrl.current);
@@ -107,10 +117,10 @@ export function ImageField({
             className={cn(inputClass, "h-9 text-[13px]", mode !== "url" && "hidden")}
             aria-invalid={!!error}
           />
-          {error ? (
-            <p className="text-[13px] text-danger" role="alert">{error}</p>
+          {tooBig || error ? (
+            <p className="text-[13px] text-danger" role="alert">{tooBig ? "Image must be under 4 MB" : error}</p>
           ) : (
-            <p className="text-[12px] text-muted">JPG, PNG, WebP or GIF, up to 5 MB.</p>
+            <p className="text-[12px] text-muted">JPG, PNG, WebP or GIF, up to 4 MB.</p>
           )}
         </div>
       </div>

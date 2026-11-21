@@ -61,7 +61,8 @@ export const ModelName = {
   ClickEvent: 'ClickEvent',
   SearchEvent: 'SearchEvent',
   NotificationSignup: 'NotificationSignup',
-  Sale: 'Sale'
+  Sale: 'Sale',
+  MediaFile: 'MediaFile'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -224,6 +225,18 @@ export const SaleScalarFieldEnum = {
 } as const
 
 export type SaleScalarFieldEnum = (typeof SaleScalarFieldEnum)[keyof typeof SaleScalarFieldEnum]
+
+
+export const MediaFileScalarFieldEnum = {
+  id: 'id',
+  creatorId: 'creatorId',
+  contentType: 'contentType',
+  size: 'size',
+  data: 'data',
+  createdAt: 'createdAt'
+} as const
+
+export type MediaFileScalarFieldEnum = (typeof MediaFileScalarFieldEnum)[keyof typeof MediaFileScalarFieldEnum]
 
 
 export const SortOrder = {

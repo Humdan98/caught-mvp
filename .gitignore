@@ -27,3 +27,11 @@ qa-windows/
 
 # Build output
 dist/
+
+# Generated / local files
+src/generated/
+*.tsbuildinfo
+next-env.d.ts
+*.db-journal
+*.db-wal
+*.db-shm

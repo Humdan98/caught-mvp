@@ -19,7 +19,7 @@ export async function saveVideo(_prev: FormState, form: FormData): Promise<FormS
 
   let thumbnailUrl: string | null;
   try {
-    thumbnailUrl = await resolveImageField(form, "thumbnailFile", "thumbnailUrl");
+    thumbnailUrl = await resolveImageField(form, "thumbnailFile", "thumbnailUrl", creator.id);
   } catch (e) {
     return { errors: { thumbnailUrl: e instanceof UploadError ? e.message : "Upload failed" } };
   }

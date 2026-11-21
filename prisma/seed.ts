@@ -3,7 +3,9 @@
  * realistic, internally consistent events (visits → clicks → sales).
  * Safe to re-run: the demo user is deleted and recreated.
  */
+import { loadEnvFromArgs } from "../scripts/lib/env";
 import { db } from "../src/lib/db";
+import { describeDatabase, getDatabaseConfig } from "../src/lib/db-config";
 import { hashPassword } from "../src/lib/password";
 
 export const DEMO_EMAIL = "demo@caughtshop.com";
@@ -354,7 +356,8 @@ async function createCreator(opts: {
   return { creator, productIds, counts: { pageViews: pageViews.length, clicks: clicks.length, sales: sales.length } };
 }
 
-async function main() {
+/** (Re)creates the demo login and its two creator accounts. Other users are untouched. */
+export async function seedDemo() {
   await db.user.deleteMany({ where: { email: DEMO_EMAIL } });
 
   const user = await db.user.create({
@@ -446,9 +449,13 @@ async function main() {
   console.log(`  @mayakitchen ${JSON.stringify(kitchen.counts)}`);
 }
 
-main()
-  .catch((err) => {
-    console.error(err);
-    process.exit(1);
-  })
-  .finally(() => db.$disconnect());
+if (require.main === module) {
+  loadEnvFromArgs();
+  console.log(`Seeding ${describeDatabase(getDatabaseConfig())}…`);
+  seedDemo()
+    .catch((err) => {
+      console.error(err);
+      process.exitCode = 1;
+    })
+    .finally(() => db.$disconnect());
+}

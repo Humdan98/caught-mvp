@@ -72,3 +72,8 @@ export type NotificationSignup = Prisma.NotificationSignupModel
  * 
  */
 export type Sale = Prisma.SaleModel
+/**
+ * Model MediaFile
+ * 
+ */
+export type MediaFile = Prisma.MediaFileModel

@@ -48,6 +48,7 @@ model Creator {
   searches          SearchEvent[]
   signups           NotificationSignup[]
   sales             Sale[]
+  media             MediaFile[]
 
   @@index([userId])
 }
@@ -183,4 +184,18 @@ model Sale {
   click           ClickEvent? @relation(fields: [clickId], references: [id], onDelete: SetNull)
 
   @@index([creatorId, createdAt])
+}
+
+// Uploaded images. Stored in the database so uploads work on read-only hosts (Vercel);
+// served by /media/[id].[ext] with long-lived cache headers.
+model MediaFile {
+  id          String   @id // uuid; the public URL is /media/<id>.<ext>
+  creatorId   String
+  contentType String
+  size        Int
+  data        Bytes
+  createdAt   DateTime @default(now())
+  creator     Creator  @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+
+  @@index([creatorId])
 }

@@ -26,12 +26,67 @@ Other scripts:
 
 ```bash
 npm run db:reset     # wipe the database and re-seed (stop the dev server first on Windows)
-npm test             # 19 unit tests (search, sold-out fallback, validation/URL hardening)
+npm test             # 25 unit tests (search, sold-out fallback, validation/URL hardening, DB config)
 npm run typecheck    # tsc --noEmit
 npm run build && npm start   # production build
 ```
 
-No `.env` is needed. `.env.example` lists the two optional settings (`DATABASE_URL`, `CAUGHT_SANDBOX`).
+No `.env` is needed locally. `.env.example` lists every setting, including the Turso ones used in production.
+
+> **Already ran an earlier version?** After pulling this one, run `npm install` and then `npx prisma migrate deploy`. That adds the new `MediaFile` table to your local database and keeps your data.
+
+## Deploy to Vercel + Turso
+
+Locally the app uses the SQLite file `prisma/dev.db`. In production it uses a **Turso** (libSQL) database. The switch is purely environment variables; there are no code changes between the two.
+
+### 1. Environment variables in Vercel
+
+Add these under **Project → Settings → Environment Variables**:
+
+| Name | Value | Environments |
+|---|---|---|
+| `TURSO_DATABASE_URL` | `libsql://<db-name>-<org>.turso.io` (from `turso db show <db-name> --url`) | Production (see note) |
+| `TURSO_AUTH_TOKEN` | a database token (from `turso db tokens create <db-name>`) | Production (see note) |
+
+Optional:
+
+| Name | Default | What it does |
+|---|---|---|
+| `CAUGHT_SANDBOX` | `true` | `true` keeps the simulated checkout for demos. `false` sends buy buttons to the real store links. |
+| `CAUGHT_SEED_DEMO` | `true` | `false` stops the demo account being created on the first deploy. |
+| `APP_URL` | your Vercel production domain | Absolute URL for share images, if you use a custom domain. |
+
+Don't set `DATABASE_URL` on Vercel. Mark `TURSO_AUTH_TOKEN` as **Sensitive**.
+
+**Preview deployments:** every build runs migrations against whatever database its environment points at. If you also tick *Preview* for the Turso variables, previews will migrate and write to the production database. Either leave Preview unticked (previews then fail fast with a clear "TURSO_DATABASE_URL is not set" error), or create a second Turso database for previews.
+
+### 2. What happens on each deploy
+
+`vercel.json` sets the build command to `npm run vercel-build`, which runs:
+
+1. `prisma generate` builds the Prisma client.
+2. `scripts/db-migrate.ts` applies any new `prisma/migrations/*` to Turso. Prisma Migrate can't connect to Turso, so this script applies the same SQL files through the libSQL client and records them in Prisma's own `_prisma_migrations` table, with the same sha256 checksums Prisma uses. Each migration runs in one transaction, and already-applied ones are skipped. If a migration fails, the build fails and the old deployment stays live.
+3. `scripts/db-seed-if-empty.ts` creates the demo account **only if the database has no users**, so the first deploy gets a working demo and later deploys never touch real data.
+4. `next build`.
+
+You don't need the Turso CLI to set up the schema; the first deploy does it.
+
+### 3. Optional: run against Turso from your machine
+
+Put the two Turso variables in a file named `.env.turso` in the project root (gitignored, never commit it), then:
+
+```bash
+npm run turso:migrate   # apply migrations to Turso now
+npm run turso:seed      # reset the demo account (deletes and recreates demo@caughtshop.com only)
+```
+
+### 4. Vercel-specific notes
+
+- **Region.** Every page makes a few database round trips, so put Vercel's functions in the region closest to your Turso database (Project → Settings → Functions → Region, e.g. Turso `aws-us-east-1` ↔ Vercel `iad1`). This is the biggest factor in production speed.
+- **Uploads** are stored in the database (`MediaFile` table), because Vercel's filesystem is read-only. They're served from `/media/<id>.<ext>` with immutable cache headers, so Vercel's CDN caches them after the first view. The upload limit is 4 MB, because Vercel caps a request body at 4.5 MB.
+- **Native modules.** Production uses libSQL's pure-JavaScript HTTP client. The native SQLite binary is only loaded for the local file database, so Vercel never needs it (a common cause of "Cannot find module '@libsql/linux-x64-gnu'" errors).
+- **Node.js.** Use 22.x or newer (the Vercel default). Prisma 7 needs Node 20.19+.
+- **The demo login is public** (it's shown on the login page). Anyone can sign in and edit the demo data. Run `npm run turso:seed` to reset it.
 
 ### Try the core loop (about 30 seconds)
 
@@ -87,7 +142,7 @@ All of it is computed from recorded events. Nothing is hard-coded. There's a 7/3
 | | |
 |---|---|
 | **Next.js 15 (App Router) + React 19 + TypeScript** | One codebase for the public page, dashboard and API. Server Components keep the public page light (~110 kB first load) and render it with data already in place. |
-| **Prisma 7 + SQLite** via `@prisma/adapter-libsql` | A real relational schema with migrations and zero infrastructure. I chose the libSQL adapter over better-sqlite3 because it ships prebuilt binaries for Windows/macOS/Linux, so `npm install` never needs a C++ toolchain. Moving to Postgres/Turso is a provider and adapter swap. |
+| **Prisma 7 + SQLite locally, Turso in production** via `@prisma/adapter-libsql` | A real relational schema with migrations and zero local infrastructure. The libSQL adapter talks to both a local SQLite file and Turso, so production is an environment-variable change. Locally it ships prebuilt binaries for Windows/macOS/Linux (no C++ toolchain); in production it uses the pure-JS HTTP client. |
 | **Tailwind CSS 4** | Brand tokens live in one `@theme` block (`src/app/globals.css`). |
 | **Zod 4** | Every form and every public event endpoint is validated on the server. |
 | **Recharts**, **Lucide** | As suggested. Recharts is only loaded on the dashboard. |
@@ -114,7 +169,7 @@ src/
     api/events/{visit,search}  beacons from the public page
     sandbox/checkout/      simulated store + conversion postback
     receipt/[id]/          shareable receipt + PNG (next/og)
-    media/[file]/          serves uploaded images from ./uploads
+    media/[file]/          serves uploaded images (stored in the database)
     dashboard/             overview, products, videos, signups, sales, profile, accounts
       _actions/            server actions (all scoped to the session's creator)
   components/
@@ -128,6 +183,7 @@ src/
     storefront.ts          public data loaders (no destination URLs sent to the browser)
     analytics.ts           everything on Overview, from events
     uploads.ts             image upload handling
+    db.ts db-config.ts     Prisma client; local file vs Turso chosen from env
 tests/                     node:test unit tests
 ```
 
@@ -143,6 +199,7 @@ User 1─* Creator  1─* SocialLink
                   1─* SearchEvent
                   1─* NotificationSignup ──▶ Product
                   1─* Sale ──▶ Product?, ClickEvent? (1:1)
+                  1─* MediaFile (uploaded images)
 ```
 
 Key constraints and indexes:
@@ -213,13 +270,13 @@ Key constraints and indexes:
 
 - **Everything external is simulated.** There are no TikTok Shop, Amazon or SMS APIs. `CAUGHT_SANDBOX=false` makes `/go` redirect to the real URLs, but nothing reports real sales back.
 - Sign-ups are collected, not sent. Export the CSV and message people yourself.
-- Uploaded images go to the local `./uploads` folder. That's fine locally, but a real deployment needs object storage (S3/R2).
+- Uploaded images are stored in the database so they work on Vercel. That's fine at MVP scale; at volume they belong in object storage (Vercel Blob, S3/R2).
 - There's no password reset or email verification, and no rate limiting on the public event endpoints or login. Anyone can send fake visit/search events for a creator (as with any client-side analytics).
-- Replaced or abandoned uploads aren't cleaned up from `./uploads`.
+- Replaced or abandoned uploads aren't cleaned up.
 - `npm audit` reports 5 advisories, all in build/CLI tooling rather than the running app: `effect` inside Prisma's CLI config loader (fix = downgrade to Prisma 6) and `postcss` bundled inside Next 15 for compiling our own CSS (fix = Next 16). Zod, which validates public input at runtime, is on the patched 4.x line.
 - Bot filtering for visits and clicks is basic.
 - Analytics are aggregated in the app server. That's fine for thousands of events; at scale I'd move to SQL aggregates or rollup tables.
-- The SQLite migration SQL was written by hand, because the sandbox I built in couldn't download Prisma's schema engine. On Windows I verified it with Prisma itself: `prisma migrate diff` reports "No difference detected" against `schema.prisma`, and it matches Prisma's own generated SQL line for line.
+- The migration SQL files were written by hand, because the sandbox I built in couldn't download Prisma's schema engine. On Windows I verified both with Prisma itself: after `prisma migrate deploy`, `prisma migrate diff` reports "No difference detected" against `schema.prisma`, and they match Prisma's own generated SQL line for line.
 
 ## What I'd build next
 
@@ -228,7 +285,7 @@ Key constraints and indexes:
 3. **Pulled-link rescue**: paste a video URL whose basket was removed and get a pinned-comment snippet ("#47 in bio") plus a short link straight to that product.
 4. **TikTok oEmbed import**: paste a video URL and the thumbnail and caption fill in automatically.
 5. **Bulk import from the Showcase tab** (CSV first), with automatic numbering.
-6. Owner-traffic exclusion, bot filtering, rate limits, and Postgres + object storage for deployment.
+6. Owner-traffic exclusion, bot filtering, rate limits, and object storage for images.
 7. Price-drop alerts that actually send when a product's price changes, which is what "on sale" really means.
 
 ---

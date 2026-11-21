@@ -34,7 +34,7 @@ export async function updateProfile(_prev: FormState, form: FormData): Promise<F
 
   let avatarUrl: string | null;
   try {
-    avatarUrl = await resolveImageField(form, "avatarFile", "avatarUrl");
+    avatarUrl = await resolveImageField(form, "avatarFile", "avatarUrl", creator.id);
   } catch (e) {
     return { errors: { avatarUrl: e instanceof UploadError ? e.message : "Upload failed" } };
   }
