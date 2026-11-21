@@ -1,0 +1,186 @@
+// Caught — data model.
+// SQLite has no native enums, so string "enums" are validated in src/lib/validation.ts.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  createdAt    DateTime  @default(now())
+  creators     Creator[]
+  sessions     Session[]
+}
+
+model Session {
+  id              String   @id // sha256 of the cookie token, never the raw token
+  userId          String
+  activeCreatorId String?
+  expiresAt       DateTime
+  createdAt       DateTime @default(now())
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Creator {
+  id                String               @id @default(cuid())
+  userId            String
+  handle            String               @unique
+  displayName       String
+  bio               String               @default("")
+  avatarUrl         String?
+  nextProductNumber Int                  @default(1) // monotonic: numbers are never reused
+  createdAt         DateTime             @default(now())
+  user              User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  socials           SocialLink[]
+  products          Product[]
+  videos            Video[]
+  pageViews         PageView[]
+  clicks            ClickEvent[]
+  searches          SearchEvent[]
+  signups           NotificationSignup[]
+  sales             Sale[]
+
+  @@index([userId])
+}
+
+model SocialLink {
+  id        String  @id @default(cuid())
+  creatorId String
+  platform  String // tiktok | instagram | youtube | x | amazon | website
+  url       String
+  sortOrder Int     @default(0)
+  creator   Creator @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+
+  @@index([creatorId])
+}
+
+model Product {
+  id              String               @id @default(cuid())
+  creatorId       String
+  number          Int
+  name            String
+  description     String               @default("")
+  priceCents      Int
+  imageUrl        String?
+  tiktokUrl       String
+  amazonUrl       String?
+  brandUrl        String?
+  commissionBps   Int                  @default(1500) // 1500 = 15.00%
+  status          String               @default("AVAILABLE") // AVAILABLE | SOLD_OUT
+  backupProductId String?
+  isVisible       Boolean              @default(true)
+  sortOrder       Int                  @default(0)
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+  creator         Creator              @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  backupProduct   Product?             @relation("ProductBackup", fields: [backupProductId], references: [id], onDelete: SetNull)
+  backupFor       Product[]            @relation("ProductBackup")
+  videos          Video[]
+  clicks          ClickEvent[]
+  signups         NotificationSignup[]
+  sales           Sale[]
+
+  @@unique([creatorId, number])
+  @@index([creatorId, sortOrder])
+}
+
+model Video {
+  id           String       @id @default(cuid())
+  creatorId    String
+  productId    String?
+  tiktokUrl    String
+  thumbnailUrl String?
+  caption      String
+  sortOrder    Int          @default(0)
+  createdAt    DateTime     @default(now())
+  creator      Creator      @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  product      Product?     @relation(fields: [productId], references: [id], onDelete: SetNull)
+  clicks       ClickEvent[]
+
+  @@index([creatorId, sortOrder])
+  @@index([productId])
+}
+
+model PageView {
+  id        String   @id @default(cuid())
+  creatorId String
+  referrer  String?
+  device    String? // mobile | desktop
+  createdAt DateTime @default(now())
+  creator   Creator  @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+
+  @@index([creatorId, createdAt])
+}
+
+model ClickEvent {
+  id            String   @id @default(cuid())
+  creatorId     String
+  productId     String?
+  videoId       String?
+  productNumber Int // snapshot, survives product deletion
+  productName   String // snapshot
+  destination   String // TIKTOK | AMAZON | BRAND
+  source        String   @default("direct") // search | video | grid | backup | direct
+  createdAt     DateTime @default(now())
+  creator       Creator  @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  product       Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  video         Video?   @relation(fields: [videoId], references: [id], onDelete: SetNull)
+  sale          Sale?
+
+  @@index([creatorId, createdAt])
+  @@index([productId])
+}
+
+model SearchEvent {
+  id          String   @id @default(cuid())
+  creatorId   String
+  query       String
+  resultCount Int
+  createdAt   DateTime @default(now())
+  creator     Creator  @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+
+  @@index([creatorId, createdAt])
+}
+
+model NotificationSignup {
+  id          String   @id @default(cuid())
+  creatorId   String
+  productId   String
+  contact     String
+  contactType String // email | phone
+  reason      String // sale | restock
+  createdAt   DateTime @default(now())
+  creator     Creator  @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, contact])
+  @@index([creatorId, createdAt])
+}
+
+// A sale reported back by the (simulated) affiliate network.
+model Sale {
+  id              String      @id @default(cuid())
+  creatorId       String
+  productId       String?
+  clickId         String?     @unique
+  productNumber   Int
+  productName     String
+  destination     String // TIKTOK | AMAZON | BRAND
+  amountCents     Int
+  commissionCents Int
+  createdAt       DateTime    @default(now())
+  creator         Creator     @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  product         Product?    @relation(fields: [productId], references: [id], onDelete: SetNull)
+  click           ClickEvent? @relation(fields: [clickId], references: [id], onDelete: SetNull)
+
+  @@index([creatorId, createdAt])
+}
